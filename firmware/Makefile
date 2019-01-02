@@ -9,7 +9,7 @@ OPT = -Og
 BUILD_DIR = .build
 
 C_SOURCES = $(call rwildcard,src/,*.c) $(call rwildcard,lib/CubeMX/,*.c)
-CXX_SOURCES = $(call rwildcard, src/,*.cpp)
+CXX_SOURCES = $(call rwildcard,src/,*.cpp)
 ASM_SOURCES = lib/CubeMX/startup_stm32f303x8.s
 
 PREFIX = arm-none-eabi-
@@ -65,7 +65,7 @@ LDSCRIPT = lib/CubeMX/STM32F303K8Tx_FLASH.ld
 
 LIBS = -lc -lm -lnosys
 LIBDIR = 
-LDFLAGS = $(MCU) -specs=nano.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
+LDFLAGS = $(MCU) -specs=nano.specs -specs=nosys.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
 
 all: $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).hex $(BUILD_DIR)/$(TARGET).bin
 

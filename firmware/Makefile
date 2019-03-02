@@ -59,7 +59,7 @@ CPPFLAGS += -g -gdwarf-2
 endif
 CPPFLAGS += -MMD -MP -MF"$(@:%.o=%.d)"
 
-CXXFLAGS = -std=c++11 -fno-rtti -fno-exceptions
+CXXFLAGS = -std=c++17 -fno-rtti -fno-exceptions
 
 LDSCRIPT = lib/CubeMX/STM32F303K8Tx_FLASH.ld
 

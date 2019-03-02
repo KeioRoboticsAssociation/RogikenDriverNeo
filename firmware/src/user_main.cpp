@@ -9,8 +9,6 @@
 #include "simple_task.h"
 #include "task.h"
 
-extern CRC_HandleTypeDef hcrc;
-extern DMA_HandleTypeDef hdma_memtomem_dma1_channel4;
 extern TIM_HandleTypeDef htim3;
 extern UART_HandleTypeDef huart2;
 

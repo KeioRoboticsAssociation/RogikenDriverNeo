@@ -67,15 +67,12 @@ ADC_HandleTypeDef hadc2;
 
 CAN_HandleTypeDef hcan;
 
-CRC_HandleTypeDef hcrc;
-
 TIM_HandleTypeDef htim1;
 TIM_HandleTypeDef htim3;
 
 UART_HandleTypeDef huart2;
 DMA_HandleTypeDef hdma_usart2_rx;
 
-DMA_HandleTypeDef hdma_memtomem_dma1_channel4;
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -89,7 +86,6 @@ static void MX_TIM3_Init(void);
 static void MX_CAN_Init(void);
 static void MX_TIM1_Init(void);
 static void MX_ADC2_Init(void);
-static void MX_CRC_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -133,7 +129,6 @@ int main(void)
   MX_CAN_Init();
   MX_TIM1_Init();
   MX_ADC2_Init();
-  MX_CRC_Init();
   /* USER CODE BEGIN 2 */
   setup();
 
@@ -288,39 +283,6 @@ static void MX_CAN_Init(void)
   /* USER CODE BEGIN CAN_Init 2 */
 
   /* USER CODE END CAN_Init 2 */
-
-}
-
-/**
-  * @brief CRC Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_CRC_Init(void)
-{
-
-  /* USER CODE BEGIN CRC_Init 0 */
-
-  /* USER CODE END CRC_Init 0 */
-
-  /* USER CODE BEGIN CRC_Init 1 */
-
-  /* USER CODE END CRC_Init 1 */
-  hcrc.Instance = CRC;
-  hcrc.Init.DefaultPolynomialUse = DEFAULT_POLYNOMIAL_DISABLE;
-  hcrc.Init.DefaultInitValueUse = DEFAULT_INIT_VALUE_ENABLE;
-  hcrc.Init.GeneratingPolynomial = 47;
-  hcrc.Init.CRCLength = CRC_POLYLENGTH_8B;
-  hcrc.Init.InputDataInversionMode = CRC_INPUTDATA_INVERSION_WORD;
-  hcrc.Init.OutputDataInversionMode = CRC_OUTPUTDATA_INVERSION_ENABLE;
-  hcrc.InputDataFormat = CRC_INPUTDATA_FORMAT_BYTES;
-  if (HAL_CRC_Init(&hcrc) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN CRC_Init 2 */
-
-  /* USER CODE END CRC_Init 2 */
 
 }
 
@@ -501,32 +463,13 @@ static void MX_USART2_UART_Init(void)
 
 /** 
   * Enable DMA controller clock
-  * Configure DMA for memory to memory transfers
-  *   hdma_memtomem_dma1_channel4
   */
 static void MX_DMA_Init(void) 
 {
   /* DMA controller clock enable */
   __HAL_RCC_DMA1_CLK_ENABLE();
 
-  /* Configure DMA request hdma_memtomem_dma1_channel4 on DMA1_Channel4 */
-  hdma_memtomem_dma1_channel4.Instance = DMA1_Channel4;
-  hdma_memtomem_dma1_channel4.Init.Direction = DMA_MEMORY_TO_MEMORY;
-  hdma_memtomem_dma1_channel4.Init.PeriphInc = DMA_PINC_ENABLE;
-  hdma_memtomem_dma1_channel4.Init.MemInc = DMA_MINC_DISABLE;
-  hdma_memtomem_dma1_channel4.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
-  hdma_memtomem_dma1_channel4.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
-  hdma_memtomem_dma1_channel4.Init.Mode = DMA_NORMAL;
-  hdma_memtomem_dma1_channel4.Init.Priority = DMA_PRIORITY_LOW;
-  if (HAL_DMA_Init(&hdma_memtomem_dma1_channel4) != HAL_OK)
-  {
-    Error_Handler( );
-  }
-
   /* DMA interrupt init */
-  /* DMA1_Channel4_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Channel4_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(DMA1_Channel4_IRQn);
   /* DMA1_Channel6_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(DMA1_Channel6_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(DMA1_Channel6_IRQn);

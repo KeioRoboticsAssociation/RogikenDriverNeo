@@ -10,12 +10,12 @@
 
 auto SerialTask::clampRxBufCursor(const uint16_t cur) -> uint16_t {
   return cur & (RX_DMA_CIRC_BUF_SIZE - 1);
-};
+}
 
 SerialTask::SerialTask(const std::string id, const uint32_t hertz, UART_HandleTypeDef& huart)
   : Task(id, hertz), huart(huart) {
   HAL_UART_Receive_DMA(&huart, rx_dma_circ_buf, RX_DMA_CIRC_BUF_SIZE);
-};
+}
 
 SerialTask::~SerialTask() {
   HAL_UART_DMAStop(&huart);

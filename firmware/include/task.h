@@ -2,6 +2,7 @@
 #define __TASK_H__
 
 #include <inttypes.h>
+#include <string>
 
 class Task {
   private:
@@ -9,7 +10,8 @@ class Task {
     uint32_t prev_cycle_cnt = 0;
     virtual auto task() -> void;
   public:
-    Task(const uint32_t);
+    const std::string id;
+    Task(const std::string, const uint32_t);
     virtual ~Task() = default;
     virtual auto process() -> void final;
 };

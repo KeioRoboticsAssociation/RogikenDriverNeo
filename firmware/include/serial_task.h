@@ -25,7 +25,7 @@ class SerialTask : public Task {
     } rx_frame = {};
     auto task() -> void override;
   public:
-    SerialTask(UART_HandleTypeDef&, const uint32_t);
+    SerialTask(const std::string, const uint32_t, UART_HandleTypeDef&);
     ~SerialTask() override;
 };
 

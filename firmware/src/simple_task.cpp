@@ -2,11 +2,12 @@
 
 #include <functional>
 #include <inttypes.h>
+#include <string>
 
 #include "task.h"
 
-SimpleTask::SimpleTask(std::function<void(void)> func, const uint32_t hertz)
-  : Task(hertz), func(func) {};
+SimpleTask::SimpleTask(const std::string id, const uint32_t hertz, std::function<void(void)> func)
+  : Task(id, hertz), func(func) {};
 
 auto SimpleTask::task() -> void {
   func();

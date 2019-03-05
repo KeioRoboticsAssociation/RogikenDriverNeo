@@ -1,10 +1,13 @@
 #include "task.h"
 
 #include <inttypes.h>
+#include <string>
 
 #include "stm32f3xx_hal.h"
 
-Task::Task(const uint32_t hertz) : cycle_duration(72000000 / hertz) {};
+#include "global.h"
+
+Task::Task(const std::string id, const uint32_t hertz) : id(id), cycle_duration(FREQ / hertz) {};
 
 auto Task::task() -> void {}
 

@@ -8,4 +8,6 @@
 
 inline std::vector<std::unique_ptr<Task>> task_list;
 
+inline float motor_power = 0;
+
 #endif // __GLOBAL__H

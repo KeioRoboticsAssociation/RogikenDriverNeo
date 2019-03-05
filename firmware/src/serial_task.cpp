@@ -46,7 +46,7 @@ auto SerialTask::task() -> void {
             rx_frame.e_cur + 1
           );
         }
-        execute_command(rx_frame.data);
+        command(rx_frame.data);
         rx_frame.s_cur = rx_frame.e_cur + 1;
         rx_buf_r_cur = clampRxBufCursor(rx_buf_r_cur + 1);
       }

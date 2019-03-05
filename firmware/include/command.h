@@ -3,6 +3,6 @@
 
 #include <string>
 
-auto execute_command(std::string data) -> void;
+auto command(std::string data) -> void;
 
 #endif // __COMMAND_H__

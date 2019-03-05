@@ -9,6 +9,7 @@
 #include "serial_task.h"
 #include "simple_task.h"
 
+extern TIM_HandleTypeDef htim1;
 extern TIM_HandleTypeDef htim3;
 extern UART_HandleTypeDef huart2;
 
@@ -20,15 +21,28 @@ void setup() {
   DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
 
   HAL_TIM_Encoder_Start(&htim3, TIM_CHANNEL_ALL);
+  HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_2);
+  HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_3);
+
   task_list.emplace_back(new SimpleTask([] {
-    printf("%" PRIu32 "\n", DWT->CYCCNT / 72000000);
-    HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_3); 
+    if (!motor_power) {
+      // htim1.Instance->CCER |=  TIM_CCxN_DISABLE << TIM_CHANNEL_2;
+      htim1.Instance->CCR2 = 0; // pwm_h
+      // HAL_TIMEx_PWMN_Stop(&htim1, TIM_CHANNEL_2);
+    } else {
+      // htim1.Instance->CCER |=  TIM_CCxN_ENABLE << TIM_CHANNEL_2;
+      htim1.Instance->CCR2 = 35999; // pwm_h
+      htim1.Instance->CCR3 = 17999 * motor_power + 18000; // phase
+    }
+  }, 1000));
+  task_list.emplace_back(new SimpleTask([] {
+    HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_3);
   }, 5));
-  task_list.emplace_back(new SerialTask(huart2, 60));
+  task_list.emplace_back(new SerialTask(huart2, 120));
 }
 
 void loop() {
-  for (auto const& task : task_list) {
+  for (const auto& task : task_list) {
     task->process();
   }
 }

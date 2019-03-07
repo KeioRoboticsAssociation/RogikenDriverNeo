@@ -36,30 +36,31 @@ MCU = $(CPU) -mthumb $(FPU) $(FLOAT-ABI)
 
 AS_DEFS = 
 
-CPP_DEFS =  \
+CPP_DEFS = \
 -DUSE_HAL_DRIVER \
 -DSTM32F303x8
 
 AS_INCLUDES = 
 
-CPP_INCLUDES =  \
--Iinclude \
--Ilib/CubeMX/Inc \
--Ilib/CubeMX/Drivers/STM32F3xx_HAL_Driver/Inc \
--Ilib/CubeMX/Drivers/STM32F3xx_HAL_Driver/Inc/Legacy \
--Ilib/CubeMX/Drivers/CMSIS/Device/ST/STM32F3xx/Include \
--Ilib/CubeMX/Drivers/CMSIS/Include \
--Ilib/CubeMX/Drivers/CMSIS/Include
+CPP_INCLUDES = \
+-Iinclude
+
+CPP_LIB_INCLUDES = \
+-isystemlib/CubeMX/Inc \
+-isystemlib/CubeMX/Drivers/STM32F3xx_HAL_Driver/Inc \
+-isystemlib/CubeMX/Drivers/STM32F3xx_HAL_Driver/Inc/Legacy \
+-isystemlib/CubeMX/Drivers/CMSIS/Device/ST/STM32F3xx/Include \
+-isystemlib/CubeMX/Drivers/CMSIS/Include
 
 ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
 
-CPPFLAGS = $(MCU) $(CPP_DEFS) $(CPP_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
+CPPFLAGS = $(MCU) $(CPP_DEFS) $(CPP_INCLUDES) $(CPP_LIB_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections -fsingle-precision-constant
 ifeq ($(DEBUG), 1)
 CPPFLAGS += -g -gdwarf-2
 endif
 CPPFLAGS += -MMD -MP -MF"$(@:%.o=%.d)"
 
-CXXFLAGS = -std=c++17 -fno-rtti -fno-exceptions
+CXXFLAGS = -std=c++17 -fno-rtti -fno-exceptions -pedantic -Wextra -Wdisabled-optimization -Wdouble-promotion -Wfloat-equal -Wlogical-op -Wmissing-declarations -Wnon-virtual-dtor -Wold-style-cast -Woverloaded-virtual -Wredundant-decls -Wswitch-default -Wundef
 
 LDSCRIPT = lib/CubeMX/STM32F303K8Tx_FLASH.ld
 

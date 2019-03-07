@@ -1,3 +1,5 @@
+#include "command.h"
+
 #include <stdio.h>
 #include <string>
 

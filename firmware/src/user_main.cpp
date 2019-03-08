@@ -5,6 +5,7 @@
 
 #include "stm32f3xx_hal.h"
 
+#include "enc_task.h"
 #include "global.h"
 #include "serial_task.h"
 #include "simple_task.h"
@@ -20,10 +21,10 @@ void setup() {
   DWT->CYCCNT = 0;
   DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
 
-  HAL_TIM_Encoder_Start(&htim3, TIM_CHANNEL_ALL);
   HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_2);
   HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_3);
 
+  task_list.emplace_back(new EncTask("encoder", 1000, htim3));
   task_list.emplace_back(new SimpleTask("motor", 1000, [] {
     if (!motor_power) {
       // htim1.Instance->CCER |=  TIM_CCxN_DISABLE << TIM_CHANNEL_2;
@@ -37,6 +38,7 @@ void setup() {
   }));
   task_list.emplace_back(new SimpleTask("blink", 5, [] {
     HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_3);
+    printf("%d\n", static_cast<int>(enc_speed));
   }));
   task_list.emplace_back(new SerialTask("serial", 120, huart2));
 }

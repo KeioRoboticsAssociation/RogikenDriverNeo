@@ -10,9 +10,6 @@
 
 class SerialTask : public Task {
   private:
-    enum struct State {
-      READY,
-    };
     static constexpr uint16_t RX_DMA_CIRC_BUF_SIZE = 0x01 << 10;
     static auto clampRxBufCursor(const uint16_t) -> uint16_t;
     UART_HandleTypeDef& huart;

@@ -8,7 +8,10 @@ OPT = -Og
 
 BUILD_DIR = .build
 
-C_SOURCES = $(call rwildcard,src/,*.c) $(call rwildcard,lib/CubeMX/,*.c)
+C_SOURCES = \
+$(call rwildcard,src/,*.c) \
+$(call rwildcard,lib/CMSIS_5/CMSIS/DSP/Source/,*.c) \
+$(call rwildcard,lib/CubeMX/,*.c)
 CXX_SOURCES = $(call rwildcard,src/,*.cpp)
 ASM_SOURCES = lib/CubeMX/startup_stm32f303x8.s
 
@@ -46,6 +49,8 @@ CPP_INCLUDES = \
 -Iinclude
 
 CPP_LIB_INCLUDES = \
+-isystemlib/CMSIS_5/CMSIS/Core/Include \
+-isystemlib/CMSIS_5/CMSIS/DSP/Include \
 -isystemlib/CubeMX/Inc \
 -isystemlib/CubeMX/Drivers/STM32F3xx_HAL_Driver/Inc \
 -isystemlib/CubeMX/Drivers/STM32F3xx_HAL_Driver/Inc/Legacy \

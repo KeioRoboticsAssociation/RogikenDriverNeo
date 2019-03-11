@@ -12,7 +12,7 @@ class SimpleTask : public Task {
     std::function<void(void)> func;
     auto task() -> void override;
   public:
-    SimpleTask(const std::string, const uint32_t, std::function<void(void)>);
+    SimpleTask(const uint32_t, std::function<void(void)>);
 };
 
 #endif // __SIMPLE_TASK_H__

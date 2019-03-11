@@ -7,7 +7,7 @@
 
 #include "global.h"
 
-Task::Task(const std::string id, const uint32_t hertz) : cycle_duration(FREQ / hertz), id(id) {}
+Task::Task(const uint32_t hertz) : cycle_duration(FREQ / hertz) {}
 
 auto Task::task() -> void {}
 

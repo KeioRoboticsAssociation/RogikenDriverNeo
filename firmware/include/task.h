@@ -10,8 +10,7 @@ class Task {
     uint32_t prev_cycle_cnt = 0;
     virtual auto task() -> void;
   public:
-    const std::string id;
-    Task(const std::string, const uint32_t);
+    Task(const uint32_t);
     virtual ~Task() = default;
     virtual auto process() -> void final;
 };

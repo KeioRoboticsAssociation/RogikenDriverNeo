@@ -21,7 +21,7 @@ class EncTask : public Task {
     uint8_t cnt_buf_s_cur = 0;
     auto task() -> void override;
   public:
-    EncTask(const std::string, const uint32_t, TIM_HandleTypeDef&);
+    EncTask(const uint32_t, TIM_HandleTypeDef&);
     ~EncTask() override;
 };
 

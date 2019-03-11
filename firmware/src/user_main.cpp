@@ -24,8 +24,8 @@ void setup() {
   HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_2);
   HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_3);
 
-  task_list.emplace_back(new EncTask("encoder", 1000, htim3));
-  task_list.emplace_back(new SimpleTask("motor", 1000, [] {
+  task_list.emplace_back("encoder", new EncTask(1000, htim3));
+  task_list.emplace_back("motor", new SimpleTask(1000, [] {
     if (!motor_power) {
       // htim1.Instance->CCER |=  TIM_CCxN_DISABLE << TIM_CHANNEL_2;
       htim1.Instance->CCR2 = 0; // pwm_h
@@ -36,11 +36,11 @@ void setup() {
       htim1.Instance->CCR3 = 17999 * motor_power + 18000; // phase
     }
   }));
-  task_list.emplace_back(new SimpleTask("blink", 5, [] {
+  task_list.emplace_back("blink", new SimpleTask(5, [] {
     HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_3);
     printf("%d\n", static_cast<int>(enc_speed));
   }));
-  task_list.emplace_back(new SerialTask("serial", 120, huart2));
+  task_list.emplace_back("serial", new SerialTask(120, huart2));
 }
 
 void loop() {

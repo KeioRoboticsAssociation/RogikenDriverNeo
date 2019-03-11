@@ -12,8 +12,7 @@ auto EncTask::clampCntBufCursor(const uint8_t cur) -> uint8_t {
   return cur & (PREV_CNT_CIRC_BUF_SIZE - 1);
 }
 
-EncTask::EncTask(const std::string id, const uint32_t hertz, TIM_HandleTypeDef& htim)
-  : Task(id, hertz), htim(htim) {
+EncTask::EncTask(const uint32_t hertz, TIM_HandleTypeDef& htim) : Task(hertz), htim(htim) {
   HAL_TIM_Encoder_Start(&htim, TIM_CHANNEL_ALL);
 }
 

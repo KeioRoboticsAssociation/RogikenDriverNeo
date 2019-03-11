@@ -6,8 +6,8 @@
 
 #include "task.h"
 
-SimpleTask::SimpleTask(const std::string id, const uint32_t hertz, std::function<void(void)> func)
-  : Task(id, hertz), func(func) {}
+SimpleTask::SimpleTask(const uint32_t hertz, std::function<void(void)> func)
+  : Task(hertz), func(func) {}
 
 auto SimpleTask::task() -> void {
   func();

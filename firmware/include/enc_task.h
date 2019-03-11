@@ -2,7 +2,6 @@
 #define __ENC_TASK_H__
 
 #include <inttypes.h>
-#include <string>
 
 #include "stm32f3xx_hal.h"
 

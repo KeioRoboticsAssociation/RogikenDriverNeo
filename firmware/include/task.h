@@ -2,7 +2,6 @@
 #define __TASK_H__
 
 #include <inttypes.h>
-#include <string>
 
 class Task {
   private:

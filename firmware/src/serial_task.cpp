@@ -1,7 +1,6 @@
 #include "serial_task.h"
 
 #include <inttypes.h>
-#include <string>
 
 #include "stm32f3xx_hal.h"
 

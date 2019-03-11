@@ -26,19 +26,19 @@ void setup() {
 
   task_list.emplace_back("encoder", new EncTask(1000, htim3));
   task_list.emplace_back("motor", new SimpleTask(1000, [] {
-    if (!motor_power) {
+    if (!state_mgr.state.motor_power) {
       // htim1.Instance->CCER |=  TIM_CCxN_DISABLE << TIM_CHANNEL_2;
       htim1.Instance->CCR2 = 0; // pwm_h
       // HAL_TIMEx_PWMN_Stop(&htim1, TIM_CHANNEL_2);
     } else {
       // htim1.Instance->CCER |=  TIM_CCxN_ENABLE << TIM_CHANNEL_2;
       htim1.Instance->CCR2 = 35999; // pwm_h
-      htim1.Instance->CCR3 = 17999 * motor_power + 18000; // phase
+      htim1.Instance->CCR3 = 17999 * state_mgr.state.motor_power + 18000; // phase
     }
   }));
   task_list.emplace_back("blink", new SimpleTask(5, [] {
     HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_3);
-    printf("%d\n", static_cast<int>(enc_speed));
+    printf("%d\n", static_cast<int>(state_mgr.state.enc_speed));
   }));
   task_list.emplace_back("serial", new SerialTask(120, huart2));
 }

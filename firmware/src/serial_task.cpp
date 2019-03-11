@@ -4,7 +4,7 @@
 
 #include "stm32f3xx_hal.h"
 
-#include "command.h"
+#include "global.h"
 #include "task.h"
 
 auto SerialTask::clampRxBufCursor(const uint16_t cur) -> uint16_t {
@@ -42,7 +42,7 @@ auto SerialTask::task() -> void {
         rx_frame.e_cur + 1
       );
     }
-    command(rx_frame.data);
+    state_mgr.executeTextCommand(rx_frame.data);
     rx_frame.s_cur = clampRxBufCursor(rx_frame.e_cur + 1);
     rx_buf_r_cur = clampRxBufCursor(rx_buf_r_cur + 1);
   }

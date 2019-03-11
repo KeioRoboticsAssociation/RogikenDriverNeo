@@ -3,13 +3,12 @@
 
 #include <inttypes.h>
 
+#include "state_manager.h"
 #include "task_list.h"
 
 inline constexpr uint32_t FREQ = 72000000;
 
+inline StateManager state_mgr;
 inline TaskList task_list;
-
-inline float motor_power = 0; // -1 ~ 1
-inline float enc_speed = 0; // Hz
 
 #endif // __GLOBAL__H__

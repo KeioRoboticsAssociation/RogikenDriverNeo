@@ -30,7 +30,7 @@ auto EncTask::task() -> void {
     cycle = cur_measure_cycle_cnt - prev_cnt_circ_buf[i].cycle;
     i = clampCntBufCursor(i + 1);
   } while (i != cnt_buf_s_cur && pulse < 100 / MAX_QUANTIZATION_ERROR_PERCENTAGE);
-  enc_speed = static_cast<float>(pulse) / cycle * FREQ;
+  state_mgr.state.enc_speed = static_cast<float>(pulse) / cycle * FREQ;
   cnt_buf_s_cur = clampCntBufCursor(cnt_buf_s_cur - 1);
   prev_cnt_circ_buf[cnt_buf_s_cur] = {cur_pulse_cnt, cur_measure_cycle_cnt};
 }

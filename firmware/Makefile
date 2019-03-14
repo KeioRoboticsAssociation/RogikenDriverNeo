@@ -10,7 +10,7 @@ BUILD_DIR = .build
 
 C_SOURCES = \
 $(call rwildcard,src/,*.c) \
-$(call rwildcard,lib/CMSIS_5/CMSIS/DSP/Source/,*.c) \
+$(call rwildcard,lib/CMSIS_5/CMSIS/DSP/Source/ControllerFunctions,*.c) \
 $(call rwildcard,lib/CubeMX/,*.c)
 CXX_SOURCES = $(call rwildcard,src/,*.cpp)
 ASM_SOURCES = lib/CubeMX/startup_stm32f303x8.s
@@ -40,6 +40,8 @@ MCU = $(CPU) -mthumb $(FPU) $(FLOAT-ABI)
 AS_DEFS = 
 
 CPP_DEFS = \
+-D__FPU_PRESENT \
+-DARM_MATH_CM4 \
 -DUSE_HAL_DRIVER \
 -DSTM32F303x8
 

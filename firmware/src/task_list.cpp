@@ -29,6 +29,7 @@ auto TaskList::emplace_back(const std::string key, Task* const task) -> void {
 }
 
 auto TaskList::erase(const std::string key) -> void {
-  auto index = map.erase(key);
+  auto index = map.at(key);
+  map.erase(key);
   list.erase(list.begin() + index);
 }

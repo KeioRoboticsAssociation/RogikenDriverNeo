@@ -6,13 +6,20 @@
 
 #include "global.h"
 
-Task::Task(const uint32_t hertz) : cycle_duration(FREQ / hertz) {}
+Task::Task(const uint32_t hertz) {
+  setHertz(hertz);
+}
 
 auto Task::task() -> void {}
 
 auto Task::process() -> void {
-  if (DWT->CYCCNT - prev_cycle_cnt >= cycle_duration) {
+  if (enable && DWT->CYCCNT - prev_cycle_cnt >= cycle_duration) {
     prev_cycle_cnt += cycle_duration;
     task();
   }
+}
+
+auto Task::setHertz(const uint32_t hertz) -> void {
+  enable = hertz;
+  cycle_duration = hertz ? FREQ / hertz : 0;
 }

@@ -13,8 +13,8 @@ class StateManager {
     };
     struct {
       Mode mode = Mode::RAW;
-      float motor_power = 0; // -1 ~ 1
-      float enc_speed = 0; // Hz
+      float motor_power = 0; // %
+      float enc_vel = 0; // Hz
     } state = {};
     auto executeTextCommand(const std::string) -> void;
 };

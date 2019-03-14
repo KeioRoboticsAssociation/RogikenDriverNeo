@@ -16,9 +16,9 @@ auto StateManager::parseFloat(const char* str) -> float {
 auto StateManager::executeTextCommand(const std::string command) -> void {
   switch (command[0]) {
     case 'R': {
-      float val = parseFloat(command.c_str() + 2);
-      state.motor_power = val > 1 ? 1 : val < -1 ? -1 : val;
-      printf("O Motor power set to %d%%\n", static_cast<int>(state.motor_power * 100));
+      auto val = parseFloat(command.c_str() + 2);
+      state.motor_power = val > 100 ? 100 : val < -100 ? -100 : val;
+      printf("O Motor power set to %d%%\n", static_cast<int>(state.motor_power));
       break;
     }
     default:

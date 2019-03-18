@@ -5,7 +5,7 @@
 
 class StateManager {
   private:
-    static auto parseFloat(const char*) -> float;
+    static auto parseFloat(const std::string&) -> float;
   public:
     enum class Mode {
       RAW,

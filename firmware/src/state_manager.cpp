@@ -1,29 +1,56 @@
 #include "state_manager.h"
 
+#include <stddef.h>
+#include <stdio.h>
+#include <string>
+
 #include "global.h"
 #include "pid_task.h"
 
-auto StateManager::parseFloat(const char* str) -> float {
-  auto is_minus = str[0] == '-';
-  auto val1 = 0;
-  auto val2 = 0;
-  sscanf(str + (is_minus ? 1 : 0), "%i.%i", &val1, &val2);
-  auto pow = 10;
-  auto val2_copy = val2;
-  while ((val2_copy /= 10) != 0) {
-    pow *= 10;
+auto StateManager::parseFloat(const std::string& str) -> float {
+  const auto size = str.size();
+  size_t cur = 0;
+  bool is_minus = false;
+  for (; cur < size; cur++) {
+    const auto& c = str[cur];
+    if (c == '-') {
+      is_minus = true;
+    } else if (c >= '0' && c <= '9') {
+      break;
+    }
   }
-  return (val1 + static_cast<float>(val2) / pow) * (is_minus ? -1 : 1);
+  int val1 = 0;
+  float val2 = 0;
+  for (; cur < size; cur++) {
+    const auto& c = str[cur];
+    if (c >= '0' && c <= '9') {
+      val1 = val1 * 10 + c - '0';
+    } else if (c == '.') {
+      cur++;
+      unsigned int val2_i = 0;
+      unsigned int pow = 1;
+      for (; cur < size; cur++) {
+        const auto& chr = str[cur];
+        if (chr >= '0' && chr <= '9') {
+          val2_i = val2_i * 10 + chr - '0';
+          pow *= 10;
+        }
+      }
+      val2 = static_cast<float>(val2_i) / pow;
+      break;
+    }
+  }
+  return (val1 + val2) * (is_minus ? -1 : 1);
 }
 
-auto StateManager::executeTextCommand(const std::string command) -> void {
+auto StateManager::executeTextCommand(const std::string& command) -> void {
   switch (command[0]) {
     case 'R': {
       if (state.mode != Mode::RAW) { // TODO: Refactor param updating
         state.mode = Mode::RAW;
         task_list.at("pid_vel")->setHertz(0);
       }
-      auto val = parseFloat(command.c_str() + 2);
+      auto val = parseFloat(command.substr(2));
       state.motor_power = val > 100 ? 100 : val < -100 ? -100 : val;
       printf("O Motor power set to %d%%\n", static_cast<int>(state.motor_power));
       break;
@@ -36,7 +63,7 @@ auto StateManager::executeTextCommand(const std::string command) -> void {
         pid_task->setTarget(&state.enc_vel, &state.target_vel);
         pid_task->setHertz(1000);
       }
-      state.target_vel = parseFloat(command.c_str() + 2);
+      state.target_vel = parseFloat(command.substr(2));
       printf("O Target velocity set to %dHz\n", static_cast<int>(state.target_vel));
       break;
     }

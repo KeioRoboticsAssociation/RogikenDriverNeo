@@ -34,8 +34,8 @@ void setup() {
       // HAL_TIMEx_PWMN_Stop(&htim1, TIM_CHANNEL_2);
     } else {
       // htim1.Instance->CCER |=  TIM_CCxN_ENABLE << TIM_CHANNEL_2;
-      htim1.Instance->CCR2 = 2399; // pwm_h
-      htim1.Instance->CCR3 = 1199 * state_mgr.state.motor_power * 0.01 + 1200; // phase
+      htim1.Instance->CCR2 = 7199; // pwm_h
+      htim1.Instance->CCR3 = 3599 * state_mgr.state.motor_power * 0.01 + 3600; // phase
     }
   }));
   task_list.emplace_back("blink", new SimpleTask(5, [] {

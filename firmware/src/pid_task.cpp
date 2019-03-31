@@ -1,5 +1,6 @@
 #include "pid_task.h"
 
+#include <algorithm>
 #include <inttypes.h>
 
 #include "arm_math.h"
@@ -15,8 +16,9 @@ PidTask::PidTask(const uint32_t hertz) : Task(hertz) {
 }
 
 auto PidTask::task() -> void {
+  auto prev = pid.state[2];
   arm_pid_f32(&pid, *set_point - *input);
-  pid.state[2] = pid.state[2] > 100 ? 100 : pid.state[2] < -100 ? -100 : pid.state[2];
+  pid.state[2] = std::clamp(std::clamp(pid.state[2], prev - ACC_LIM, prev + ACC_LIM), -VEL_LIM, VEL_LIM);
   state_mgr.state.motor_power = pid.state[2];
 }
 
@@ -46,5 +48,7 @@ auto PidTask::setTarget(const float* in, const float* sp) -> void {
 }
 
 auto PidTask::resetState() -> void {
-  arm_pid_reset_f32(&pid);
+  pid.state[0] = 0;
+  pid.state[1] = 0;
+  pid.state[2] = state_mgr.state.motor_power;
 }

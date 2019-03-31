@@ -10,6 +10,8 @@
 class PidTask : public Task {
   private:
     static constexpr float ZERO = 0;
+    static constexpr float ACC_LIM = 1;
+    static constexpr float VEL_LIM = 30;
     arm_pid_instance_f32 pid;
     const float* input = &ZERO;
     const float* set_point = &ZERO;

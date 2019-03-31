@@ -22,4 +22,5 @@ auto Task::process() -> void {
 auto Task::setHertz(const uint32_t hertz) -> void {
   enable = hertz;
   cycle_duration = hertz ? FREQ / hertz : 0;
+  prev_cycle_cnt = DWT->CYCCNT;
 }

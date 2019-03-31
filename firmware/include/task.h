@@ -3,13 +3,11 @@
 
 #include <inttypes.h>
 
-#include "stm32f3xx_hal.h"
-
 class Task {
   private:
     bool enable;
     uint32_t cycle_duration;
-    uint32_t prev_cycle_cnt = DWT->CYCCNT;
+    uint32_t prev_cycle_cnt;
     virtual auto task() -> void;
   public:
     Task(const uint32_t);

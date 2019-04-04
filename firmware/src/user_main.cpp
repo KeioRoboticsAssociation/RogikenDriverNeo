@@ -46,12 +46,12 @@ void setup() {
   }));
   task_list.emplace_back("blink", new SimpleTask(5, [] {
     HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_3);
-    printf(
-      "%d, %d, %d\n",
-      static_cast<int>(state_mgr.state.motor_power),
-      static_cast<int>(state_mgr.state.target_vel),
-      static_cast<int>(state_mgr.state.enc_vel)
-    );
+    // printf(
+    //   "%d, %d, %d\n",
+    //   static_cast<int>(state_mgr.state.motor_power),
+    //   static_cast<int>(state_mgr.state.target_vel),
+    //   static_cast<int>(state_mgr.state.enc_vel)
+    // );
   }));
   task_list.emplace_back("serial", new SerialTask(120, huart2));
 }

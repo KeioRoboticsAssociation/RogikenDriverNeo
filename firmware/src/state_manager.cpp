@@ -89,9 +89,22 @@ auto StateManager::executeTextCommand(const std::string& command) -> void {
       break;
     }
     case 'S': {
-      auto gain = parseFloat(command.substr(5));
-      static_cast<PidTask*>(task_list.at("pid_vel").get())->setGain(command[3], gain);
-      printf("O PID gain K%c set to %s\n", command[3], printFloat(gain).c_str());
+      switch (command[2]) {
+        case 'k':
+        case 'K': {
+          auto gain = parseFloat(command.substr(5));
+          static_cast<PidTask*>(task_list.at("pid_vel").get())->setGain(command[3], gain);
+          printf("O PID gain K%c set to %s\n", command[3], printFloat(gain).c_str());
+          break;
+        }
+        case 'D':
+          state.debug = !state.debug;
+          printf("O Debug output %d\n", state.debug);
+          break;
+        default:
+          printf("E Config prop name %s not found\n", command.substr(2).c_str());
+          break;
+      }
       break;
     }
     default:

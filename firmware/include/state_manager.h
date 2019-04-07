@@ -17,6 +17,7 @@ class StateManager {
       float motor_power = 0; // %
       float enc_vel = 0; // Hz
       float target_vel = 0; // Hz
+      bool debug = false;
     } state = {};
     auto executeTextCommand(const std::string&) -> void;
 };

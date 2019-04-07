@@ -13,7 +13,7 @@ class SerialTask : public Task {
     static constexpr uint16_t RX_DMA_CIRC_BUF_SIZE = 0x01 << 10;
     static auto clampRxBufCursor(const uint16_t) -> uint16_t;
     UART_HandleTypeDef& huart;
-    uint16_t rx_buf_r_cur = 0;
+    uint16_t rx_buf_r_cur = RX_DMA_CIRC_BUF_SIZE - 1;
     uint8_t rx_dma_circ_buf[RX_DMA_CIRC_BUF_SIZE];
     struct {
       uint16_t s_cur = 0;

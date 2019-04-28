@@ -85,7 +85,7 @@ auto StateManager::executeTextCommand(const std::string& command) -> void {
         pid_task->setHertz(1000);
       }
       state.target_vel = parseFloat(command.substr(2));
-      printf("O Target velocity set to %sHz\n", printFloat(state.target_vel).c_str());
+      // printf("O Target velocity set to %sHz\n", printFloat(state.target_vel).c_str());
       break;
     }
     case 'S': {

@@ -18,7 +18,7 @@ PidTask::PidTask(const uint32_t hertz) : Task(hertz) {
 auto PidTask::task() -> void {
   auto prev = pid.state[2];
   arm_pid_f32(&pid, *set_point - *input);
-  pid.state[2] = std::clamp(std::clamp(pid.state[2], prev - ACC_LIM, prev + ACC_LIM), -VEL_LIM, VEL_LIM);
+  pid.state[2] = *set_point ? std::clamp(std::clamp(pid.state[2], prev - ACC_LIM, prev + ACC_LIM), -VEL_LIM, VEL_LIM) : 0;
   state_mgr.state.motor_power = pid.state[2];
 }
 
